@@ -7,10 +7,10 @@ import {AxiosResponse} from 'axios';
 import {Readable} from 'stream';
 
 interface LLMRequest {
-    type: string;
+    llm_type: string;
     template: string;
     options: any;
-    secretKey: string;
+    secret_key: string;
 }
 
 @Injectable()
@@ -26,16 +26,10 @@ export class LLMClient {
         private readonly httpService: HttpService,
         private readonly configService: ConfigService,
     ) {
-        if (!configService) {
-            throw new Error('ConfigService가 주입되지 않았습니다!');
-        }
-
-        console.log(`🔹 ConfigService에서 LLM_TYPE: ${this.configService.get<string>('LLM_TYPE')}`);
-
-        this.llmType = this.configService.get<string>('LLM_TYPE')!;
-        this.secretKey = this.configService.get<string>('LLM_SERVER_SECRET_KEY')!;
-        this.streamingRequestEndpoint = this.configService.get<string>('LLM_SERVER_ENDPOINT_STREAMING')!;
-        this.sseRequestEndpoint = this.configService.get<string>('LLM_SERVER_ENDPOINT_SSE')!;
+        this.llmType = this.configService.get<string>('LLM_TYPE') || 'default-llm';
+        this.secretKey = this.configService.get<string>('LLM_SERVER_SECRET_KEY') || 'default-secret';
+        this.streamingRequestEndpoint = this.configService.get<string>('LLM_SERVER_ENDPOINT_STREAMING') || '/api/stream';
+        this.sseRequestEndpoint = this.configService.get<string>('LLM_SERVER_ENDPOINT_SSE') || '/api/sse';
         this.baseUrl = 'https://hyobin-llm.duckdns.org';
     }
 
@@ -72,21 +66,23 @@ export class LLMClient {
 
     receiveLLMStreaming(options: any, template: string): Observable<string> {
         const llmRequest: LLMRequest = {
-            type: this.llmType,
+            llm_type: this.llmType,
             template,
             options,
-            secretKey: this.secretKey,
+            secret_key: this.secretKey,
         };
+
         return this.webClientRequest(this.streamingRequestEndpoint, llmRequest);
     }
 
     receiveLLMStreamingSSE(options: any, template: string): Observable<string> {
         const llmRequest: LLMRequest = {
-            type: this.llmType,
+            llm_type: this.llmType,
             template,
             options,
-            secretKey: this.secretKey,
+            secret_key: this.secretKey,
         };
+
         return this.webClientRequest(this.sseRequestEndpoint, llmRequest);
     }
 }
