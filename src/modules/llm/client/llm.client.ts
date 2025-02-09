@@ -74,15 +74,4 @@ export class LLMClient {
 
         return this.webClientRequest(this.streamingRequestEndpoint, llmRequest);
     }
-
-    receiveLLMStreamingSSE(options: any, template: string): Observable<string> {
-        const llmRequest: LLMRequest = {
-            llm_type: this.llmType,
-            template,
-            options,
-            secret_key: this.secretKey,
-        };
-
-        return this.webClientRequest(this.sseRequestEndpoint, llmRequest);
-    }
 }
