@@ -1,16 +1,31 @@
 import {ApiProperty} from '@nestjs/swagger';
-import {IsArray, IsNotEmpty} from 'class-validator';
+import {IsArray, IsOptional, IsString, ValidateNested} from 'class-validator';
+import {Type} from 'class-transformer';
+
+export class OptionsRequest {
+    @ApiProperty({
+        description: '옵션 이름',
+        example: '옵션1',
+    })
+    @IsString()
+    optionName: string = '';
+
+    @ApiProperty({
+        description: '옵션 값',
+        example: '값1',
+    })
+    @IsString()
+    optionValue: string = '';
+}
 
 export class TemplateRequest {
+    @ApiProperty({
+        example: [{optionName: '옵션1', optionValue: '값1'}, {optionName: '옵션2', optionValue: '값2'}],
+        required: false,
+    })
     @IsArray()
-    @IsNotEmpty({each: true})
-    option1: string[] = [];
-
-    @IsArray()
-    @IsNotEmpty({each: true})
-    option2: string[] = [];
-
-    @IsArray()
-    @IsNotEmpty({each: true})
-    option3: string[] = [];
+    @IsOptional()
+    @ValidateNested({each: true})
+    @Type(() => OptionsRequest)
+    options?: OptionsRequest[] = [];
 }
