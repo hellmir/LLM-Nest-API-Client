@@ -37,7 +37,7 @@
 - GPT 3.5 Turbo
 
 ## 🗼 Architecture
-![llm-service](https://github.com/user-attachments/assets/2bfbf8f5-f67d-48fd-b751-f5adc14f22d0)
+!![llm-service](https://github.com/user-attachments/assets/c63002e7-8260-4cd8-99de-7cbd4ab4d850)
 
 ## 🛠️ Skills
 

@@ -13,7 +13,10 @@ async function bootstrap() {
         }),
     );
 
-    app.enableCors();
+    app.enableCors({
+        origin: process.env.CLIENT_URL,
+        methods: 'POST',
+    });
 
     const config = new DocumentBuilder()
         .setTitle('LLM Streaming API Client Template')
