@@ -22,22 +22,24 @@
 ## 📚 관련 URL
 - [서비스 URL](https://hyobin-llm.vercel.app)
 - [LLM Streaming 서버 API](https://hyobin-llm.duckdns.org/docs)
-- [LLM Spring API 클라이언트 서버 API](https://hyobin-llm-client.duckdns.org/swagger-ui/index.html)
-- [LLM Nest.js API 클라이언트 서버 API](https://hyobin-nest-client.duckdns.org/api)
+- [LLM Spring API 클라이언트 서버 API](https://hyobin-llm-spring.duckdns.org/swagger-ui/index.html)
+- [LLM Nest.js API 클라이언트 서버 API](https://hyobin-llm-nest.duckdns.org/api)
+- [LLM 클라이언트 Repository](https://github.com/hellmir/LLM-Streaming-Client)
 - [LLM Streaming 서버 Repository](https://github.com/hellmir/LLM-Streaming-Server)
-- [LLM Streaming 클라이언트 Repository](https://github.com/hellmir/LLM-Streaming-Client)
-- [LLM Spring API 클라이언트 서버 Repository](https://github.com/hellmir/LLM-Streaming-API-Client)
+- [LLM Spring API 클라이언트 서버 Repository](https://github.com/hellmir/LLM-Spring-API-Client)
   <br><br>
 
 ## ![ai](https://github.com/user-attachments/assets/d2cdfacc-c141-400c-9ba4-3f77d7664714) LLM Models
 - Mistral Large
-- Llama3.3
-- HCX-003
 - Gemini 1.5 Pro
+- Llama 3.3
+- HCX-003
 - GPT 3.5 Turbo
+- Claude Haiku
+- DeepSeek V3
 
 ## 🗼 Architecture
-!![llm-service](https://github.com/user-attachments/assets/c63002e7-8260-4cd8-99de-7cbd4ab4d850)
+![llm-service](https://github.com/user-attachments/assets/c63002e7-8260-4cd8-99de-7cbd4ab4d850)
 
 ## 🛠️ Skills
 
