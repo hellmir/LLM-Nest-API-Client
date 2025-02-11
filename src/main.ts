@@ -14,7 +14,7 @@ async function bootstrap() {
     const config = new DocumentBuilder()
         .setTitle('LLM Streaming API Client Template')
         .setDescription('Nest.js 환경에서 LLM Streaming 서비스를 구현할 수 있는 API Client 템플릿입니다.')
-        .setVersion('1.0')
+        .setVersion('1.1')
         .build();
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api', app, document);
