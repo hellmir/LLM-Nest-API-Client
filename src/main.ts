@@ -1,27 +1,20 @@
 import {NestFactory} from '@nestjs/core';
 import {AppModule} from './app.module';
-import {Logger, ValidationPipe} from '@nestjs/common';
+import {Logger} from '@nestjs/common';
 import {DocumentBuilder, SwaggerModule} from '@nestjs/swagger';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
-    app.useGlobalPipes(
-        new ValidationPipe({
-            whitelist: true,
-            transform: true,
-        }),
-    );
-
     app.enableCors({
         origin: process.env.CLIENT_URL,
-        methods: 'POST',
+        methods: 'GET,POST'
     });
 
     const config = new DocumentBuilder()
         .setTitle('LLM Streaming API Client Template')
         .setDescription('Nest.js 환경에서 LLM Streaming 서비스를 구현할 수 있는 API Client 템플릿입니다.')
-        .setVersion('1.0')
+        .setVersion('1.1')
         .build();
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api', app, document);

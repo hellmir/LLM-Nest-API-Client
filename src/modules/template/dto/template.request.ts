@@ -27,5 +27,5 @@ export class TemplateRequest {
     @IsOptional()
     @ValidateNested({each: true})
     @Type(() => OptionsRequest)
-    options?: OptionsRequest[] = [];
+    additionalOptions?: OptionsRequest[] = [];
 }

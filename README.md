@@ -156,3 +156,30 @@
 [LNAC-36](https://langchain.atlassian.net/browse/LNAC-36) SSE 엔드포인트 삭제
 
 [LNAC-40](https://langchain.atlassian.net/browse/LNAC-40) README.md 추가
+<br><br>
+
+## 릴리스 정보 - LLM Nest API Client - LlmNestApiClientRelease02/11
+
+### 하위 작업
+
+[LNAC-42](https://langchain.atlassian.net/browse/LNAC-42) Validation Pipe 설정 제거
+
+[LNAC-43](https://langchain.atlassian.net/browse/LNAC-43) CORS 활성화 HTTP 메서드 목록에 GET 추가
+
+[LNAC-44](https://langchain.atlassian.net/browse/LNAC-44) 타입을 변경하는 공용 유틸리티 클래스 추가
+
+[LNAC-45](https://langchain.atlassian.net/browse/LNAC-45) 인스턴스의 속성값을 배열로 변경하는 공용 메서드 추가
+
+[LNAC-46](https://langchain.atlassian.net/browse/LNAC-46) 디렉토리 구조 변경
+
+[LNAC-47](https://langchain.atlassian.net/browse/LNAC-47) 일부 변수명 변경
+
+### 에픽
+
+[LNAC-1](https://langchain.atlassian.net/browse/LNAC-1) LLM API 클라이언트 Nest.js 서버 템플릿 구현
+
+### 작업
+
+[LNAC-40](https://langchain.atlassian.net/browse/LNAC-40) README.md 추가
+
+[LNAC-41](https://langchain.atlassian.net/browse/LNAC-41) 설정 변경 및 리팩터링
