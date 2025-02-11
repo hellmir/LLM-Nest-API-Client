@@ -1,16 +1,18 @@
-import {Controller, Get, Query, Res} from '@nestjs/common';
+import {Controller, Get, Injectable, Query, Res} from '@nestjs/common';
 import {ApiOperation, ApiQuery, ApiTags} from '@nestjs/swagger';
 import {Response} from 'express';
-import {LLMClient} from "../../llm/client/llm.client";
-import {TemplateRequest} from "../dto/template.request";
-import {LLMResponseGenerator} from "../../llm/util/llm.response-generator";
+import {TypeConverter} from "../common/utils/type-converter";
+import {LLMClient} from "../llm/llm.client";
+import {LLMAdapter} from "../llm/llm.adapter";
+import {TemplateRequest} from "./dto/template.request";
 
 @ApiTags('기본 템플릿 API')
-@Controller()
+@Controller('/template')
+@Injectable()
 export class TemplateController {
     private readonly template: string = process.env.LLM_TEMPLATE || '기본 템플릿';
 
-    constructor(private readonly llmClient: LLMClient) {
+    constructor(private readonly llmClient: LLMClient, private readonly llmAdapter: LLMAdapter) {
     }
 
     @ApiOperation({
@@ -35,11 +37,19 @@ export class TemplateController {
         example: ['옵션1', '옵션2', '옵션3', '옵션4'],
         isArray: true,
     })
-    @Get('/template')
+    @Get()
     requestLLM(
-        @Query() options: TemplateRequest,
-        @Res() res: Response,
+        @Query() templateRequest: TemplateRequest,
+        @Res() response: Response,
     ): void {
-        LLMResponseGenerator.transmitResponse(res, this.llmClient, options, this.template);
+        const optionsToTransmit =
+            TypeConverter.convertInstanceValuesToArray(templateRequest);
+
+        this.llmAdapter.proceedStreamingFromExternalApi(
+            response,
+            this.llmClient,
+            optionsToTransmit,
+            this.template,
+        );
     }
 }

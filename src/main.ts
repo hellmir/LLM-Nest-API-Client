@@ -1,21 +1,14 @@
 import {NestFactory} from '@nestjs/core';
 import {AppModule} from './app.module';
-import {Logger, ValidationPipe} from '@nestjs/common';
+import {Logger} from '@nestjs/common';
 import {DocumentBuilder, SwaggerModule} from '@nestjs/swagger';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
-    app.useGlobalPipes(
-        new ValidationPipe({
-            whitelist: true,
-            transform: true,
-        }),
-    );
-
     app.enableCors({
         origin: process.env.CLIENT_URL,
-        methods: 'POST',
+        methods: 'GET,POST'
     });
 
     const config = new DocumentBuilder()

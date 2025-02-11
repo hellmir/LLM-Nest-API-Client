@@ -19,7 +19,6 @@ export class LLMClient {
     private readonly llmType: string;
     private readonly secretKey: string;
     private readonly streamingRequestEndpoint: string;
-    private readonly sseRequestEndpoint: string;
     private readonly baseUrl: string;
 
     constructor(
@@ -28,40 +27,8 @@ export class LLMClient {
     ) {
         this.llmType = this.configService.get<string>('LLM_TYPE') || 'default-llm';
         this.secretKey = this.configService.get<string>('LLM_SERVER_SECRET_KEY') || 'default-secret';
-        this.streamingRequestEndpoint = this.configService.get<string>('LLM_SERVER_ENDPOINT_STREAMING') || '/api/stream';
-        this.sseRequestEndpoint = this.configService.get<string>('LLM_SERVER_ENDPOINT_SSE') || '/api/sse';
+        this.streamingRequestEndpoint = this.configService.get<string>('LLM_SERVER_ENDPOINT_STREAMING') || '/streaming';
         this.baseUrl = 'https://hyobin-llm.duckdns.org';
-    }
-
-    private webClientRequest(requestEndpoint: string, llmRequest: LLMRequest): Observable<string> {
-        const url = `${this.baseUrl}${requestEndpoint}`;
-        return this.httpService
-            .post(url, llmRequest, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'text/event-stream',
-                },
-                responseType: 'stream',
-            })
-            .pipe(
-                switchMap((response: AxiosResponse<Readable>) => {
-                    const stream = response.data;
-                    let counter = 0;
-                    return new Observable<string>(observer => {
-                        stream.on('data', (chunk: Buffer) => {
-                            counter++;
-                            const chunkStr = chunk.toString();
-                            if (counter % 10 === 0) {
-                                this.logger.log(`Received chunk: ${chunkStr}`);
-                            }
-                            observer.next(chunkStr);
-                        });
-                        stream.on('end', () => observer.complete());
-                        stream.on('error', err => observer.error(err));
-                        return () => stream.destroy();
-                    });
-                }),
-            );
     }
 
     receiveLLMStreaming(options: any, template: string): Observable<string> {
@@ -73,5 +40,41 @@ export class LLMClient {
         };
 
         return this.webClientRequest(this.streamingRequestEndpoint, llmRequest);
+    }
+
+    private webClientRequest(requestEndpoint: string, llmRequest: LLMRequest): Observable<string> {
+        const requestUrl = `${this.baseUrl}${requestEndpoint}`;
+        this.logger.log(`Request URL: ${requestUrl}`);
+        this.logger.log('--Request Parameters--', llmRequest);
+
+        return this.httpService
+            .post(requestUrl, llmRequest, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'text/event-stream',
+                },
+                responseType: 'stream',
+            })
+            .pipe(
+                switchMap((response: AxiosResponse<Readable>) => {
+                    const stream = response.data;
+                    let counter = 0;
+
+                    return new Observable<string>(observer => {
+                        stream.on('data', (chunk: Buffer) => {
+                            counter++;
+                            const chunkStr = chunk.toString();
+                            if (counter % 10 === 0) {
+                                this.logger.log(`Received chunk: ${chunkStr}`);
+                            }
+                            observer.next(chunkStr);
+                        });
+                        stream.on('end', () => observer.complete());
+                        stream.on('error', err => observer.error(err));
+
+                        return () => stream.destroy();
+                    });
+                }),
+            );
     }
 }
