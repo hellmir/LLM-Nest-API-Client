@@ -1,16 +1,18 @@
-import {Controller, Get, Query, Res} from '@nestjs/common';
+import {Controller, Get, Injectable, Query, Res} from '@nestjs/common';
 import {ApiOperation, ApiQuery, ApiTags} from '@nestjs/swagger';
 import {Response} from 'express';
-import {LLMClient} from "../../llm/client/llm.client";
-import {ExampleRequest} from "../dto/example.request";
-import {LLMResponseGenerator} from "../../llm/util/llm.response-generator";
+import {LLMAdapter} from "../llm/llm.adapter";
+import {LLMClient} from "../llm/llm.client";
+import {ExampleRequest} from "./dto/example.request";
+import {TypeConverter} from "../common/utils/type-converter";
 
 @ApiTags('레시피 정보 조회 예시 API')
-@Controller()
+@Controller('/example')
+@Injectable()
 export class ExampleController {
     private readonly template: string = process.env.LLM_RECIPE_TEMPLATE || '레시피 템플릿';
 
-    constructor(private readonly llmClient: LLMClient) {
+    constructor(private readonly llmClient: LLMClient, private readonly llmAdapter: LLMAdapter) {
     }
 
     @ApiOperation({
@@ -44,11 +46,19 @@ export class ExampleController {
         description: '조리 시간',
         example: '30분',
     })
-    @Get('/example')
+    @Get()
     requestRecipeLLM(
-        @Query() options: ExampleRequest,
-        @Res() res: Response,
+        @Query() exampleRequest: ExampleRequest,
+        @Res() response: Response,
     ): void {
-        LLMResponseGenerator.transmitResponse(res, this.llmClient, options, this.template);
+        const optionsToTransmit =
+            TypeConverter.convertInstanceValuesToArray(exampleRequest);
+
+        this.llmAdapter.proceedStreamingFromExternalApi(
+            response,
+            this.llmClient,
+            optionsToTransmit,
+            this.template,
+        );
     }
 }
