@@ -13,6 +13,10 @@
 <b>2025. 02. 09</b>
 <br><br>
 
+## ![Image](https://github.com/user-attachments/assets/1838d6b9-69ff-43fe-80b1-b1e39709cef9) 설정 추가 및 리팩터링
+<b>2025. 02. 11</b>
+<br><br>
+
 ## 👫 구성원
 
 ### 성효빈
