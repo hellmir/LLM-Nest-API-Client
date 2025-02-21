@@ -1,4 +1,4 @@
-# ![ai](https://github.com/user-attachments/assets/4a4fece4-ce22-48f1-a1a1-a5804ab4ebc0) Nest.js 기반 생성형 AI  Streaming API Client 템플릿<br><br>
+# ![ai](https://github.com/user-attachments/assets/4a4fece4-ce22-48f1-a1a1-a5804ab4ebc0) Nest.js 기반 생성형 AI Streaming API Client 템플릿 <img src="https://img.shields.io/badge/v1.1-6DB33F?style=flat-square&logo=Adobe&logoColor=white"><br><br>
 
 ## 📋 프로젝트 설명
 - LLM Streaming Server를 통해 Nest.js 기반 서비스에서 LLM 스트리밍 서비스를 제공하는 API 클라이언트 템플릿
@@ -38,7 +38,7 @@
 - HCX-003
 - Gemini 1.5 Pro
 - Llama 3.3
-- GPT 3.5 Turbo
+- GPT 4o Mini
 - Claude Haiku
 - DeepSeek V3
 
